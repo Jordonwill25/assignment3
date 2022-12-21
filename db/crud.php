@@ -131,7 +131,7 @@
                 try{
                     $sql= "delete from registrant where registrant_Id= :id";
                     $stmt=  $this->db->prepare($sql);
-                    $stmt->bindparam('id',$id);
+                    $stmt->bindparam(':id',$id);
                     $stmt->execute();
                     return true;
     
@@ -145,59 +145,9 @@
 
 
 
+       
 
-
-
-
-
-
-        //for inserting info for the match selection//
-        public function insertmatchinfo($matches, $seats, $meals,$beverages){
-            try {
-                $sql=" INSERT INTO matchdetails (matches_Id,seats_Id,meals_Id,beverages_Id) 
-                VALUES (:matches, :seats, :meals,:beverages)";
-
-                $stmt=  $this->db->prepare($sql);
-
-                $stmt->bindparam(':matches',$matches);
-                $stmt->bindparam(':seats',$seats);
-                $stmt->bindparam(':meals',$meals);
-                $stmt->bindparam(':beverages',$beverages);
-                
-
-                $stmt ->execute(); 
-                return true;
-
-            } catch (PDOException $e) {
-
-            echo $e ->getMessage();
-            return false;
-                //throw $th;
-            }
-        }
-
-        public function getMatchInfo($id){
-
-            
-            try{
-                $sql= "select * from matchdeatails a inner join matches b on a.matches_Id = b.matches_Id 
-                inner join seats c on a.seats_Id = c.seats_Id 
-                inner join meals d on a.meals_Id = d.meals_Id
-                inner join beverages e on a.beverages_Id = e.beverages_Id
-                where matchdetails_Id = :id";
-                $stmt=  $this->db->prepare($sql);
-                $stmt->bindparam(':id',$id);
-                $stmt->execute();
-                $result = $stmt->fetch();
-                return $result;
-
-
-            }catch(PDOException $e){
-                echo $e ->getMessage();
-                return false;
-                //throw $th;
-            }   
-        }
+       
 
 
         //geting the details for drop down
@@ -210,6 +160,26 @@
                 $sql = "SELECT * FROM `matches`;";
                 $results= $this->db->query($sql);
                 return $results;
+
+            }catch(PDOException $e){
+                echo $e ->getMessage();
+                return false;
+                //throw $th;
+             }
+
+
+        }
+
+        public function getMatchesinfo($id){
+
+            
+
+            try{
+                $sql = "SELECT * FROM `matches` where matches_Id= :id;";
+                $stmt=  $this->db->prepare($sql);
+                    $stmt->bindparam(':id',$id);
+                    $stmt->execute();
+                    return true;
 
             }catch(PDOException $e){
                 echo $e ->getMessage();
@@ -235,6 +205,26 @@
              }
 
         }
+
+        public function getSeatsinfo($id){
+
+            
+
+            try{
+                $sql = "SELECT * FROM `seats` where seats_Id=:id;";
+                $stmt=  $this->db->prepare($sql);
+                $stmt->bindparam(':id',$id);
+                $stmt->execute();
+                return true;
+
+            }catch(PDOException $e){
+                echo $e ->getMessage();
+                return false;
+                //throw $th;
+             }
+
+        }
+
 
        
         //matches section above//

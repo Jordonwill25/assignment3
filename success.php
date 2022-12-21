@@ -2,6 +2,8 @@
  $title ="Success";
  require_once "includes/header.php";  
  require_once "db/conn.php";
+ require_once "sendemail.php";
+ 
 
 
  if(isset($_POST['submitform'])){
@@ -22,10 +24,12 @@
       move_uploaded_file($orgin_file,$destination);
 
         $Success =$crud->insertuser($fName,$lName,$eAddress,$pNumber,$dob,$matches,$seats,$destination);
-
+       // $match= $crud->getMatchesinfo($matches);
+     //   $seat= $crud->getSeatsinfo($seats);
 
 
         if(!$Success){
+          sendEmail::sendMail($email, "Welcom To Your New School","You have been Registered");
           echo " <h1 class='text-center text-danger'>There was an error in registering</h1>";
      
          }else{
